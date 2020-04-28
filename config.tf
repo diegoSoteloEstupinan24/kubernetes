@@ -3,6 +3,7 @@ variable "prefix" {
 }
 
 variable "location" {
+  default = "Central US"
   description = "The Azure location where all resources in this example should be created"
 }
 
@@ -27,8 +28,4 @@ variable cluster_name {
 
 variable resource_group_name {
     default = "azure-k8stest"
-}
-
-variable location {
-    default = "Central US"
 }
