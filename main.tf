@@ -13,6 +13,10 @@ provider "azurerm" {
   features {}
 }
 
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+}
+
 # Azure Resource Group
 resource "azurerm_resource_group" "k8sexample" {
   name     = "${var.resource_group_name}"
