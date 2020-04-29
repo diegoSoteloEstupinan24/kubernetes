@@ -1,27 +1,27 @@
-output "client_key" {
-    value = "${base64decode(azurerm_kubernetes_cluster.k8s.kube_config.0.client_key)}" 
+output "private_key_pem" {
+  value = "${chomp(tls_private_key.ssh_key.private_key_pem)}"
 }
 
-output "client_certificate" {
-    value = "${azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate}" 
+output "k8s_id" {
+  value = "${azurerm_kubernetes_cluster.k8sexample.id}"
 }
 
-output "cluster_ca_certificate" {
-    value = "${azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate}" 
+output "k8s_endpoint" {
+  value = "${azurerm_kubernetes_cluster.k8sexample.fqdn}"
 }
 
-output "cluster_username" {
-    value = "${azurerm_kubernetes_cluster.k8s.kube_config.0.username}" 
+output "k8s_master_auth_client_certificate" {
+  value = "${azurerm_kubernetes_cluster.k8sexample.kube_config.0.client_certificate}"
 }
 
-output "cluster_password" {
-    value = "${azurerm_kubernetes_cluster.k8s.kube_config.0.password}" 
+output "k8s_master_auth_client_key" {
+  value = "${azurerm_kubernetes_cluster.k8sexample.kube_config.0.client_key}"
 }
 
-output "kube_config" {
-    value = "${azurerm_kubernetes_cluster.k8s.kube_config_raw}" 
+output "k8s_master_auth_cluster_ca_certificate" {
+  value = "${azurerm_kubernetes_cluster.k8sexample.kube_config.0.cluster_ca_certificate}"
 }
 
-output "host" {
-    value = "${azurerm_kubernetes_cluster.k8s.kube_config.0.host}" 
+output "environment" {
+  value = "${var.environment}"
 }

@@ -13,35 +13,41 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "k8s" {
+# Azure Resource Group
+resource "azurerm_resource_group" "k8sexample" {
   name     = "${var.resource_group_name}"
-  location = "${var.location}"
+  location = "${var.azure_location}"
 }
 
-resource "azurerm_kubernetes_cluster" "k8s" {
-    name                = "${var.cluster_name}"
-    location            = "${azurerm_resource_group.k8s.location}"
-    resource_group_name = "${azurerm_resource_group.k8s.name}"
-    dns_prefix          = "${var.dns_prefix}"
+# Azure Container Service (AKS) Cluster
+resource "azurerm_kubernetes_cluster" "k8sexample" {
+  name = "azure-k8sexample-cluster"
+  location = "${azurerm_resource_group.k8sexample.location}"
+  resource_group_name = "${azurerm_resource_group.k8sexample.name}"
+  dns_prefix = "${var.dns_prefix}"
+  kubernetes_version = "${var.k8s_version}"
 
-    linux_profile {
-        computer_name = "hostname"
-        admin_username = "testadmin"
-        admin_password = "Password1234!"
+  linux_profile {
+    admin_username = "${var.admin_user}"
+    ssh_key {
+      key_data = "${chomp(tls_private_key.ssh_key.public_key_openssh)}"
     }
+  }
 
-    default_node_pool {
-        name            = "agentpool"
-        node_count      = "${var.agent_count}"
-        vm_size         = "Standard_DS1_v2"
-    }
+  agent_pool_profile {
+    name       = "${var.agent_pool_name}"
+    count      =  "${var.agent_count}"
+    os_type    = "${var.os_type}"
+    os_disk_size_gb = "${var.os_disk_size}"
+    vm_size    = "${var.vm_size}"
+  }
 
-    service_principal {
-        client_id     = "${var.client_id}"
-        client_secret = "${var.client_secret}"
-    }
+  service_principal {
+    client_id     = "${var.client_id}"
+    client_secret = "${var.client_secret}"
+  }
 
-    tags = {
-        Environment = "Development"
-    }
+  tags {
+    Environment = "${var.environment}"
+  }
 }
