@@ -25,11 +25,9 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     dns_prefix          = "${var.dns_prefix}"
 
     linux_profile {
-        admin_username = "ubuntu"
-
-        ssh_key {
-            key_data = "${file("$HOME/.ssh/id_rsa.pub")}"
-        }
+        computer_name = "hostname"
+        admin_username = "testadmin"
+        admin_password = "Password1234!"
     }
 
     default_node_pool {
