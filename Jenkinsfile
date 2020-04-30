@@ -20,42 +20,42 @@ podTemplate(label: 'azurevm', containers: [
     node('azurevm') {
         def gitRepo = 'https://github.com/diegoSoteloEstupinan24/kubernetes'
         currentBuild.result = "SUCCESS"
-    try {
-         stage('Checkout'){
-            container('terraform-az') {
-                // Get the terraform plan
-                git url: gitRepo, branch: 'master'
+        try {
+            stage('Checkout'){
+                container('terraform-az') {
+                    // Get the terraform plan
+                    git url: gitRepo, branch: 'master'
+                }
+            }
+            stage('Terraform init'){
+                container('terraform-az') {
+                    // Initialize the plan 
+                    sh  """
+                        terraform init -input=false
+                    """
+                }
+            }
+            stage('Terraform plan'){
+                container('terraform-az') {  
+                    
+                    sh  """
+                        terraform plan -out=tfplan -input=false -var-file='variables/variables.tfvars'
+                    """
+                }
+            }
+        
+            stage('Terraform apply'){
+                container('terraform-az') {
+                    // Apply the plan
+                    sh  """  
+                        terraform apply -input=false tfplan
+                    """
+                }
             }
         }
-        stage('Terraform init'){
-            container('terraform-az') {
-                // Initialize the plan 
-                sh  """
-                    terraform init -input=false
-                   """
-            }
+        catch (err) {
+            currentBuild.result = "FAILURE"
+            throw err
         }
-        stage('Terraform plan'){
-            container('terraform-az') {  
-                
-                sh  """
-                    terraform plan -out=tfplan -input=false -var-file='variables/variables.tfvars'
-                   """
-            }
-        }
-       
-        stage('Terraform apply'){
-            container('terraform-az') {
-                // Apply the plan
-                sh  """  
-                    terraform apply -input=false tfplan
-                   """
-            }
-        }
-    }
-    catch (err) {
-        currentBuild.result = "FAILURE"
-        throw err
-    }
     }
 }
