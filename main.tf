@@ -103,6 +103,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   linux_profile {
     admin_username = "${var.vm_user_name}"
+
+    ssh_key {
+      #key_data = "${file("${var.public_ssh_key_path}")}"
+      key_data = "ssh-rsa AAAAB3Nz{snip}hwhqT9h"
+    }
   }
 
   addon_profile {
