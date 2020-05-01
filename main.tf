@@ -106,7 +106,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
     ssh_key {
       #key_data = "${file("${var.public_ssh_key_path}")}"
-      key_data = "ssh-rsa AAAAB3Nz{snip}hwhqT9h"
+      key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrtzXhFi7lnkfD8nw1GIP/9+qPBWEgY13jyOH/Si5wa9no36+sk0hpE8Khwv+v8E3h23F12RoUvyhDH7CbI7TN6cfyUxWwRofBz0SE68Y7F+bOEG9Qt7eDiTgN+Tk8Ltd7oOB2aTeNkSGdKaL2iUt5wklp5N3vaDuoMr0UCSPujbTGaNBUCNwLLti3fLg79KAkimXmWe4o41sgSBG9ikUhXaQKB3k70pM3cSFnWqCqrZOTMLP/6lYUCP1AnNyxnd6r1QEfMe7fC7fvuIu6TIhvkRMA5U7JMD3TDnZGhKdayFtatXailPFRWb1+yjIXobRvEnRQW9Q8BI4dkFWZ5y1j"
     }
   }
 
